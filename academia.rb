@@ -167,9 +167,8 @@ class Parser
 	end
 
 	def sort_relations
-		top = @weights_array.sort {|a,b| b[2].to_i <=> a[2].to_i}
-		ap top
-		bottom = @weights_array.sort {|a,b| a[2].to_i <=> b[2].to_i}
+		top = @weights_array.sort! {|a,b| b[2].to_i <=> a[2].to_i}
+		bottom = @weights_array.sort! {|a,b| a[2].to_i <=> b[2].to_i}
 		puts
 		puts "******************"
 		puts "Top Relations are:"
@@ -189,8 +188,10 @@ class Parser
 	def sort_weights
 		weights = []
 		@weights_array.each do |item|
-			weights << item[2].to_i
+			weights << item[2]
 		end
+		ap weights
+		ap weights.min
 		ap weights.max
 	end
 
@@ -245,6 +246,9 @@ def runAPP
 				get_input
 			when "relations"
 				@academia.sort_relations
+				get_input
+			when "sort"
+				@academia.sort_weights
 				get_input
 			when "exit"
 				puts "Bye Bye Apple Pie"
