@@ -103,7 +103,7 @@ class Parser
 		puts "End Of Record (Enter to Proceed, Break to exit)"
 	end
 
-	def anaylise_interest
+	def analyse_interest
 		checked_array = []
 		@weights_array.each do |item|
 			search_interests(item[0]) unless checked_array.include? item[0]
@@ -209,7 +209,7 @@ def runAPP
 				puts @academia.user_input
 				get_input
 			when "analysis"
-				@academia.anaylise_interest
+				@academia.analyse_interest
 				get_input
 			when "count"
 				@academia.count_interest
@@ -231,7 +231,7 @@ end
 # academia.search_interests("48")
 
 # academia.list_intersts
-# academia.anaylise_interest
+# academia.analyse_interest
 # academia.count_interest
 
 
