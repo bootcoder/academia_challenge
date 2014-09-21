@@ -100,7 +100,7 @@ class Parser
 			puts "weight: #{result[2]}"
 			puts
 		end
-		puts "End Of Record (Enter to Proceed, Break to exit)"
+		puts "End Of Record -- Enter to Proceed, Break to exit (if available)"
 	end
 
 	def analyse_interest
@@ -166,6 +166,17 @@ class Parser
 		
 	end
 
+	def sort_relations
+		ap @weights_array
+		top = @weights_array.sort {|a,b| b[2] <=> a[2]}
+		bottom = @weights_array.sort {|a,b| a[2] <=> b[2]}
+
+		puts "Top Relations are:"
+		convert_results(top[0..10])
+		puts "Lowest Relations are:"
+		convert_results(bottom[0..10])
+	end
+
 
 end
 
@@ -213,6 +224,9 @@ def runAPP
 				get_input
 			when "count"
 				@academia.count_interest
+				get_input
+			when "relations"
+				@academia.sort_relations
 				get_input
 			when "exit"
 				puts "Bye Bye Apple Pie"
