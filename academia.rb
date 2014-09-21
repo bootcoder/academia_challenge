@@ -211,6 +211,7 @@ def runAPP
 				puts "Search: To return a specific interest or id."
 				puts "Analysis: To see all relations."
 				puts "Count: To see relations counts of all interests."
+				puts "Relations: To see Top and Bottom relations."
 				get_input
 			when "list"
 				@academia.list_intersts
