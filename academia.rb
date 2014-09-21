@@ -205,6 +205,7 @@ def runAPP
 				@academia.list_intersts
 				get_input
 			when "search"
+				@academia.list_intersts
 				puts @academia.user_input
 				get_input
 			when "analysis"
