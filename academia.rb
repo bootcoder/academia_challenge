@@ -76,7 +76,9 @@ class Parser
 	end
 
 	def list_intersts
-		@interest_hash.each { |item| ap "ID: #{item[0]} -- #{item[1]}" }
+		sorted =  @interest_hash.sort { |a,b| a[1] <=> b[1]}
+		# ap sorted
+		sorted.each { |item| printf "%-20s %s\n", "ID: #{item[0]}", "#{item[1]}"}
 	end
 	
 ###################
@@ -96,8 +98,10 @@ class Parser
 		sorted.each do |result|
 			id1 = id_to_interest(result[0])
 			id2 = id_to_interest(result[1])
-			puts "#{id1} <--> #{id2}"
-			puts "weight: #{result[2]}"
+			puts "*"*100
+			printf "%-20s %s\n","Weight: #{result[2]}  --- ", "#{id1} <--> #{id2}"
+			puts "*"*100
+			puts 
 			puts
 		end
 		puts "End Of Record -- Enter to Proceed, Break to exit (if available)"
@@ -109,6 +113,7 @@ class Parser
 			search_interests(item[0]) unless checked_array.include? item[0]
 			checked_array << item[0]
 			check = gets.chomp.downcase
+			system 'clear'
 			break if check == "break"
 		end
 	end
@@ -143,7 +148,7 @@ class Parser
 		puts "#{id_to_interest(id)} has #{checked_hash[id]} relations"
 		puts "Would you like to see related records? (yes or no)"
 		more = gets.chomp.downcase
-		search_interests(id) if more.include? "yes"
+		search_interests(id) if more.include? "y"
 	end
 
 	def user_input
@@ -167,18 +172,18 @@ class Parser
 	end
 
 	def sort_relations
-		top = @weights_array.sort! {|a,b| b[2].to_i <=> a[2].to_i}
-		bottom = @weights_array.sort! {|a,b| a[2].to_i <=> b[2].to_i}
+		top = @weights_array.sort {|a,b| b[2].to_i <=> a[2].to_i}
+		bottom = @weights_array.sort_by {|a| a[2]}
 		puts
 		puts "******************"
-		puts "Top Relations are:"
+		puts "Top Relations:"
 		puts "******************"
 		puts
 		convert_results(top[0..10])
 		puts
 		puts
 		puts "*********************"
-		puts "Lowest Relations are:"
+		puts "Lowest Relations:"
 		puts "*********************"
 		puts
 		convert_results(bottom[0..10])
@@ -190,10 +195,12 @@ class Parser
 		@weights_array.each do |item|
 			weights << item[2]
 		end
-		ap weights
-		ap weights.min
-		ap weights.max
+		puts weights
+		puts weights.min
+		puts weights.max
 	end
+
+
 
 
 end
@@ -206,6 +213,7 @@ end
 ###################
 # Control Code
 ###################
+
 def runAPP
 
 	@academia = Parser.new
@@ -220,42 +228,53 @@ def runAPP
 		puts
 		puts
 		puts "Main Menu: Please enter a command || Help"
+		display_commands
+		prompt
 		input = gets.chomp.downcase
 		system 'clear'
 		case input
 			when "help"
-				puts "Commands include:"
-				puts "List: To list all interests."
-				puts "Search: To return a specific interest or id."
-				puts "Analysis: To see all relations."
-				puts "Count: To see relations counts of all interests."
-				puts "Relations: To see Top and Bottom relations."
+				display_commands
 				get_input
-			when "list"
+			when "list", "1"
 				@academia.list_intersts
 				get_input
-			when "search"
+			when "search", "2"
 				@academia.list_intersts
 				puts @academia.user_input
 				get_input
-			when "analysis"
+			when "analysis", "3"
 				@academia.analyse_interest
 				get_input
-			when "count"
+			when "count", "4"
 				@academia.count_interest
 				get_input
-			when "relations"
+			when "relatio", "5"
 				@academia.sort_relations
 				get_input
 			when "sort"
 				@academia.sort_weights
 				get_input
-			when "exit"
+			when "exit", "6"
 				puts "Bye Bye Apple Pie"
 			else
 				puts "Unrecognized Input: Please try again"
 				get_input
 		end
+	end
+
+	def display_commands
+		puts "Commands include:"
+		puts "1. List -- To list all interests."
+		puts "2. Search -- To return a specific interest or id."
+		puts "3. Analysis -- To see all relations."
+		puts "4. Count -- To see relations counts of all interests."
+		puts "5. Relations -- To see Top and Bottom relations."
+		puts "6. Exit"
+	end
+
+	def prompt
+		print ">"
 	end
 	get_input
 end
