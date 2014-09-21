@@ -124,17 +124,17 @@ class Parser
 			checked_hash[item[0]] += 1
 		end
 
+		# ap checked_hash
+
 		for i in 0..checked_hash.values.max
-			checked_hash.each do |item| 
+			checked_hash.each do |item|
 				if checked_hash[item[0]] == i 
-					puts "#{id_to_interest(item[0])}" 
+					printf "%-20s %s\n", "Relations: #{i}", "#{id_to_interest(item[0])}"
 					@print_num = true
-					break
 				else
 					@print_num = false
 				end
 			end
-			puts "Relations Count: #{i}\n\n" if @print_num == true
 		end
 	end
 
@@ -145,6 +145,7 @@ class Parser
 			checked_hash[item[0]] += 1
 			checked_hash[item[1]] += 1
 		end
+
 		puts "#{id_to_interest(id)} has #{checked_hash[id]} relations"
 		puts "Would you like to see related records? (yes or no)"
 		more = gets.chomp.downcase
@@ -171,23 +172,26 @@ class Parser
 		
 	end
 
-	def sort_relations
+	def sort_relations(num, position)
 		top = @weights_array.sort {|a,b| b[2].to_i <=> a[2].to_i}
 		bottom = @weights_array.sort_by {|a| a[2]}
-		puts
-		puts "******************"
-		puts "Top Relations:"
-		puts "******************"
-		puts
-		convert_results(top[0..10])
-		puts
-		puts
-		puts "*********************"
-		puts "Lowest Relations:"
-		puts "*********************"
-		puts
-		convert_results(bottom[0..10])
-		puts
+		if position.include? "top"
+			puts
+			puts "******************"
+			puts "Top Relations:"
+			puts "******************"
+			puts
+			convert_results(top[0..num.to_i])
+			puts
+		elsif position.include? "b"
+			puts
+			puts "*********************"
+			puts "Lowest Relations:"
+			puts "*********************"
+			puts
+			convert_results(bottom[0..num.to_i])
+			puts
+		end
 	end
 
 	def sort_weights
@@ -249,8 +253,14 @@ def runAPP
 			when "count", "4"
 				@academia.count_interest
 				get_input
-			when "relatio", "5"
-				@academia.sort_relations
+			when "relations", "5"
+				print "Please enter the number of results you would like: "
+				prompt
+				num = gets.chomp.downcase
+				print "Top or Bottom?"
+				prompt
+				list_input = gets.chomp.downcase
+				@academia.sort_relations(num, list_input)
 				get_input
 			when "sort"
 				@academia.sort_weights
