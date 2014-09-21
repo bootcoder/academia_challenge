@@ -167,14 +167,31 @@ class Parser
 	end
 
 	def sort_relations
-		ap @weights_array
-		top = @weights_array.sort {|a,b| b[2] <=> a[2]}
-		bottom = @weights_array.sort {|a,b| a[2] <=> b[2]}
-
+		top = @weights_array.sort {|a,b| b[2].to_i <=> a[2].to_i}
+		ap top
+		bottom = @weights_array.sort {|a,b| a[2].to_i <=> b[2].to_i}
+		puts
+		puts "******************"
 		puts "Top Relations are:"
+		puts "******************"
+		puts
 		convert_results(top[0..10])
+		puts
+		puts
+		puts "*********************"
 		puts "Lowest Relations are:"
+		puts "*********************"
+		puts
 		convert_results(bottom[0..10])
+		puts
+	end
+
+	def sort_weights
+		weights = []
+		@weights_array.each do |item|
+			weights << item[2].to_i
+		end
+		ap weights.max
 	end
 
 
