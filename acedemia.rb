@@ -22,7 +22,7 @@
 require "awesome_print"
 
 ###################
-# Parse Class
+# MAIN Class
 ###################
 
 class Parser
@@ -174,9 +174,6 @@ end
 
 
 
-
-
-
 ###################
 # Control Code
 ###################
@@ -185,6 +182,8 @@ def runAPP
 	@academia = Parser.new
 	@academia.parseInterests("interest.txt")
 	@academia.parseWeights("weight.txt")
+	
+	system'clear'
 	puts
 	puts "Welcome to the Acedemia.edu JR data cruncher"
 
@@ -221,7 +220,6 @@ def runAPP
 				get_input
 		end
 	end
-
 	get_input
 end
 
